@@ -133,8 +133,8 @@ const App = () => {
                   value={formData.role} onChange={handleEditChange}
                   className='border border-slate-600 rounded'/>
                   <span className='flex gap-4 p-2 mr-2'>
-                    <button type='submit' onClick={()=>handleEditSave()}>Save</button>
-                    <button type='submit' onClick={()=>handleCancelEdit()}>Cancel</button>
+                    <button type='submit' onClick={()=>handleEditSave()} className='bg-blue-600 p-3 rounded'>Save</button>
+                    <button type='submit' onClick={()=>handleCancelEdit()} className='bg-red-600 p-3 rounded'>Cancel</button>
                   </span>
                 </>
               ):(
