@@ -112,7 +112,8 @@ const App = () => {
           
           {filterUser.slice(startIndex,endIndex).map(user=>(
             
-            <div key={user.id} className='flex items-center justify-between border border-b-0'>
+            <div key={user.id} className={`flex items-center justify-between border border-b-0 
+              ${selectedRow.includes(user.id)?"bg-gray-500 text-white":""}`}>
               <input type='checkbox' checked={selectedRow.includes(user.id)} 
                 onChange={()=>handleSelectedRow(user.id)} className='p-1 truncate w-40' />
               {editId === user.id?(
