@@ -96,7 +96,11 @@ const App = () => {
     <div className=''>
       <div className='flex mx-auto items-center max-w-7xl p-3 gap-2'>
         <input type='text' placeholder='Search by name, email, role...'
-          value={searchTerm} onChange={(e)=>{setSearchTerm(e.target.value)}} 
+          value={searchTerm} onChange={(e)=>{setSearchTerm(e.target.value)}} onKeyDown={(e)=>{
+            if(e.key === 'Enter'){
+              handleFilter(e)
+            }
+          }}
           className='border border-gray-500 rounded-lg p-2' style={{width:"90%"}}/>
           <button type="submit" onClick={handleFilter} className=' bg-blue-700 text-white p-2 rounded-lg w-20 sm:w-40 uppercase hover:opacity-90'>Search</button>
       </div>
