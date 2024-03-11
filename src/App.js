@@ -32,6 +32,7 @@ const App = () => {
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
       user.role.toLowerCase().includes(searchTerm.toLowerCase())
     )
+    console.log(filter);
     setFilterUser(filter);
     setCurrentPage(1);
   }
@@ -70,7 +71,7 @@ const App = () => {
         <input type='text' placeholder='Search by name, email, role...'
           value={searchTerm} onChange={(e)=>{setSearchTerm(e.target.value)}} 
           className='border border-gray-500 rounded-lg p-2' style={{width:"90%"}}/>
-          <button onSubmit={handleFilter} className=' bg-blue-700 text-white p-2 rounded-lg w-20 sm:w-40 uppercase hover:opacity-90'>Search</button>
+          <button type="submit" onClick={handleFilter} className=' bg-blue-700 text-white p-2 rounded-lg w-20 sm:w-40 uppercase hover:opacity-90'>Search</button>
       </div>
       <div className='max-w-7xl mx-auto items-center shadow-lg p-2'>
         <div className='w-full border border-slate-500 '>
