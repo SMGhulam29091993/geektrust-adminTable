@@ -145,7 +145,7 @@ const App = () => {
                 <span className='p-1 flex w-28 sm:w-40 gap-2 cursor-pointer' >
                   <span className='text-yellow-600 text-lg p-3 rounded-md text-white uppercase'
                     onClick={()=>handleEdit(user.id)} ><FaPenSquare/></span>
-                  <span  className='text-red-600 text-lg p-3 rounded-md text-white uppercase'
+                  <span className='text-red-600 text-lg p-3 rounded-md text-white uppercase'
                    onClick={()=>handleDelete(user.id)}><FaTrash/></span>
                 </span>
                 </>
