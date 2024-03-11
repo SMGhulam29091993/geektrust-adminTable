@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import {FaTrash, FaPenSquare} from "react-icons/fa"
 
 const App = () => {
   const [users,setUsers] = useState([]);
@@ -8,7 +9,9 @@ const App = () => {
   const [selectedRow, setSelectedRow] = useState([]);
   const pageSize = 10;
   const [currentPage,setCurrentPage] = useState(1);
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [editId,setEditId] = useState(null);
+  const [formData,setFormData] = useState({name:"", email:"", role:""});
 
   const fetchUser = async ()=>{
     try {
@@ -59,12 +62,36 @@ const App = () => {
     setSelectedRow([])
     setCount(0)
   }
+  const handleEdit = (id)=>{
+    setEditId(id);
+  }
+
+  const handleEditChange = (e)=>{
+    setFormData({
+      ...formData,
+      [e.target.id] : e.target.value
+    })
+  }
+
+  const handleEditSave = () => {
+    const updatedUsers = users.map((user) =>
+      user.id === editId ? { ...user, ...formData } : user
+    );
+    setUsers(updatedUsers);
+    setFilterUser(updatedUsers);
+    setEditId(null);
+    setFormData({ name: "", email: "", role: "" });
+  };
+
+  const handleCancelEdit = ()=>{
+    setEditId(null);
+  };
 
   const totalPages = Math.ceil(filterUser.length/pageSize);
   const startIndex = (currentPage-1)*pageSize;
   const endIndex = Math.min(startIndex+pageSize, filterUser.length);
 
-  console.log(searchTerm);
+  console.log(users);
   return (
     <div className=''>
       <div className='flex mx-auto items-center max-w-7xl p-3 gap-2'>
@@ -74,7 +101,7 @@ const App = () => {
           <button type="submit" onClick={handleFilter} className=' bg-blue-700 text-white p-2 rounded-lg w-20 sm:w-40 uppercase hover:opacity-90'>Search</button>
       </div>
       <div className='max-w-7xl mx-auto items-center shadow-lg p-2'>
-        <div className='w-full border border-slate-500 '>
+        <div className='w-full '>
           <div className='flex items-center justify-between bg-slate-900 text-white uppercase'>
             <span className='p-2 w-40 text-center font-semibold'>{count>0?`Selected ${count}`:""}</span>
             <span className='p-2 w-40 text-left font-semibold'>Name</span>
@@ -84,17 +111,41 @@ const App = () => {
           </div>
           
           {filterUser.slice(startIndex,endIndex).map(user=>(
-            <div key={user.id} className='flex items-center justify-between'>
+            
+            <div key={user.id} className='flex items-center justify-between border border-b-0'>
               <input type='checkbox' checked={selectedRow.includes(user.id)} 
                 onChange={()=>handleSelectedRow(user.id)} className='p-1 truncate w-40' />
-              <span className='p-1 truncate sm:w-40'>{user.name}</span>
-              <span className='p-1 truncate sm:w-40' >{user.email}</span>
-              <span className='p-1 truncate sm:w-40' >{user.role}</span>
-              <span className='p-1 flex sm:w-40 gap-2 cursor-pointer' >
-                <span className='bg-orange-400 p-2 rounded-md text-white uppercase' >Edit</span>
-                <span  className='bg-red-700 p-2 rounded-md text-white uppercase'
-                 onClick={()=>handleDelete(user.id)}>Delete</span>
-              </span>
+              {editId === user.id?(
+                <>
+                  <input type='text' 
+                    placeholder= {user.name} defaultValue={user.name} id='name' 
+                    value={formData.name} onChange={handleEditChange}
+                    className='border border-slate-600 rounded'/>
+                  <input type='text' placeholder= {user.email} defaultValue={user.email} id='email' 
+                  value={formData.email} onChange={handleEditChange}
+                  className='border border-slate-600 rounded'/>
+                  <input type='text' placeholder= {user.role}  defaultValue={user.role} id='role' 
+                  value={formData.role} onChange={handleEditChange}
+                  className='border border-slate-600 rounded'/>
+                  <span className='flex gap-4 p-2 mr-2'>
+                    <button type='submit' onClick={()=>handleEditSave()}>Save</button>
+                    <button type='submit' onClick={()=>handleCancelEdit()}>Cancel</button>
+                  </span>
+                </>
+              ):(
+                <>
+                <span className='p-1 truncate w-28 sm:w-40'>{user.name}</span>
+                <span className='p-1 truncate w-28 sm:w-40' >{user.email}</span>
+                <span className='p-1 truncate w-28 sm:w-40' >{user.role}</span>
+                <span className='p-1 flex w-28 sm:w-40 gap-2 cursor-pointer' >
+                  <span className='text-yellow-600 text-lg p-3 rounded-md text-white uppercase'
+                    onClick={()=>handleEdit(user.id)} ><FaPenSquare/></span>
+                  <span  className='text-red-600 text-lg p-3 rounded-md text-white uppercase'
+                   onClick={()=>handleDelete(user.id)}><FaTrash/></span>
+                </span>
+                </>
+              )}
+              
             </div>
            ))}
         </div>
