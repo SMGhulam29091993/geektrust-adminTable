@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
-import {FaTrash, FaPenSquare} from "react-icons/fa"
+import {FaCross, FaPenSquare} from "react-icons/fa"
 
 const App = () => {
   const [users,setUsers] = useState([]);
@@ -146,7 +146,7 @@ const App = () => {
                   <span className='text-yellow-600 text-lg p-3 rounded-md text-white uppercase'
                     onClick={()=>handleEdit(user.id)} ><FaPenSquare/></span>
                   <span className='text-red-600 text-lg p-3 rounded-md text-white uppercase'
-                   onClick={()=>handleDelete(user.id)}><FaTrash/></span>
+                   onClick={()=>handleDelete(user.id)}><FaCross/></span>
                 </span>
                 </>
               )}
